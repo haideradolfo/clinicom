@@ -4,10 +4,43 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        
         {% block stylesheets %}
+            <!-- Inclure le CSS compilé avec Webpack Encore -->
+            {{ encore_entry_link_tags('app') }}  <!-- CSS principal via Webpack -->
+            
+            <!-- Ajouter les CSS spécifiques pour le login et signup -->
+            <link rel="stylesheet" href="{{ asset('public/Login/css/app.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('public/Login/css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('public/Login/css/custom.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('public/Login/css/icons.min.css') }}">
         {% endblock %}
 
         {% block javascripts %}
+            <!-- Inclure les JS compilés avec Webpack Encore -->
+            {{ encore_entry_script_tags('app') }}  <!-- JS principal via Webpack -->
+            
+            <!-- Ajouter les JS spécifiques pour le login et signup -->
+            <script src="public/Login/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="public/Login/libs/simplebar/simplebar.min.js"></script>
+            <script src="public/Login/libs/node-waves/waves.min.js"></script>
+            <script src="public/Login/libs/feather-icons/feather.min.js"></script>
+            <script src="public/Login/js/pages/plugins/lord-icon-2.1.0.js"></script>
+            <script src="public/Login/js/plugins.js"></script>
+
+            <script src="public/Login/js/pages/password-addon.init.js"></script>
+
+            <!-- JAVASCRIPT -->
+            <script src="assets/Login/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="assets/Login/libs/simplebar/simplebar.min.js"></script>
+            <script src="assets/Login/libs/node-waves/waves.min.js"></script>
+            <script src="assets/Login/libs/feather-icons/feather.min.js"></script>
+            <script src="assets/Login/js/pages/plugins/lord-icon-2.1.0.js"></script>
+            <script src="assets/Login/js/plugins.js"></script>
+
+            <script src="assets/Login/js/pages/form-validation.init.js"></script>
+            <script src="assets/Login/js/pages/passowrd-create.init.js"></script>
+            
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
