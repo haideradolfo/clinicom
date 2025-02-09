@@ -20,8 +20,8 @@ class User
     #[ORM\Column(length: 100)]
     private ?string $prenom = null;
 
-    #[ORM\Column]
-    private ?int $age = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $date_naissance = null;
 
     #[ORM\Column(enumType: Role::class)]
     private ?Role $role = null;
@@ -70,14 +70,14 @@ class User
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getDateNaissance(): ?\DateTimeInterface
     {
-        return $this->age;
+        return $this->date_naissance;
     }
 
-    public function setAge(int $age): static
+    public function setDateNaissance(\DateTimeInterface $date_naissance): static
     {
-        $this->age = $age;
+        $this->date_naissance = $date_naissance;
 
         return $this;
     }
