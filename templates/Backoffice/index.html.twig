@@ -1,176 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace Admin | Clinicom{% endblock %}
+{% block title %}Clinicom Admin Dashboard{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link href="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet">
-{% endblock %}
-
-{% block header %}
-    <header id="page-topbar">
-        <div class="navbar-header">
-            <div class="d-flex">
-                <div class="navbar-brand-box">
-                    <a href="{{ path('admin_dashboard') }}" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="{{ asset('assets/images/favicon.png') }}" alt="Logo" height="30">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="{{ asset('assets/images/favicon.png') }}" alt="Logo" height="50">
-                            <span class="logo-txt">Clinicom</span>
-                        </span>
-                    </a>
-                </div>
-
-                <button type="button" class="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
-                    <i class="fa fa-fw fa-bars"></i>
-                </button>
-
-                <form class="app-search d-none d-lg-block">
-                    <div class="position-relative">
-                        <input type="text" class="form-control" placeholder="Rechercher...">
-                        <button class="btn btn-primary" type="button">
-                            <i class="bx bx-search-alt align-middle"></i>
-                        </button>
-                    </div>
-                </form>
+{% block body %}
+    <header class="admin-header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="{{ asset('Backoffice/images/logo_sec.png') }}" alt="Logo" class="logo-image">
+                <h1>Clinicom</h1>
             </div>
-
-            {# ... Reste du header (langues, notifications, profil) ... #}
+            <nav class="header-actions">
+                <a href="{{ path('signin') }}" class="logout-btn">Déconnexion</a>
+            </nav>
         </div>
     </header>
-{% endblock %}
 
-{% block sidebar %}
-    <div class="vertical-menu">
-        <div data-simplebar class="h-100">
-            <div id="sidebar-menu">
-                <ul class="metismenu list-unstyled" id="side-menu">
-                    <li class="menu-title">Menu</li>
-                    <li>
-                        <a href="{{ path('admin_dashboard') }}">
-                            <i data-feather="home"></i>
-                            <span class="badge rounded-pill bg-soft-success text-success float-end">9+</span>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    
-                    <li class="menu-title">Applications</li>
-                    
-                    <li>
-                        <a href="{{ path('admin_users') }}">
-                            <i data-feather="users"></i>
-                            <span>Gérer les utilisateurs</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_specialties') }}">
-                            <i data-feather="briefcase"></i>
-                            <span>Gérer les spécialités</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_posts') }}">
-                            <i data-feather="file-text"></i>
-                            <span>Posts des médecins</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_donations') }}">
-                            <i data-feather="heart"></i>
-                            <span>Demandes de donation</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_events') }}">
-                            <i data-feather="calendar"></i>
-                            <span>Événements</span>
-                        </a>
-                    </li>
+    <div class="dashboard-container">
+<aside class="sidebar">
+    <nav class="sidebar-nav">
+        <ul>
+            <li class="{{ app.request.attributes.get('_route') == 'admin_dashboard' ? 'active' }}">
+                <a href="{{ path('admin_dashboard') }}">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+            </li>
+            <li class="{{ app.request.attributes.get('_route') == 'admin_users' ? 'active' }}">
+                <a href="{{ path('admin_users') }}">
+                    <i class="fas fa-users"></i> Utilisateurs
+                </a>
+            </li>
+                    <li><a href="#"><i class="fas fa-box"></i> Rehabilitations</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
                 </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h2>{{ block('page_title') }}</h2>
+                <div class="breadcrumb">
+                    Accueil / {{ block('page_title') }}
+                </div>
             </div>
-        </div>
+            
+            {% if app.request.attributes.get('_route') == 'admin_dashboard' %}
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Utilisateurs</h3>
+                        <p>1,234</p>
+                        <i class="fas fa-users stat-icon"></i>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Commandes</h3>
+                        <p>89</p>
+                        <i class="fas fa-shopping-cart stat-icon"></i>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Revenu</h3>
+                        <p>€12,540</p>
+                        <i class="fas fa-euro-sign stat-icon"></i>
+                    </div>
+                </div>
+            {% endif %}
+        </main>
     </div>
 {% endblock %}
 
-{% block content %}
-    <div class="main-content">
-        <div class="page-content">
-            <div class="container-fluid">
-                <!-- Titre -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0 font-size-18">Tableau de bord</h4>
-                            <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Statistiques</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cartes de statistiques -->
-                <div class="row">
-                    {% for stat in stats %}
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card card-h-100">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ stat.title }}</span>
-                                            <h4 class="mb-3">{{ stat.value }}</h4>
-                                            <div class="text-nowrap">
-                                                <span class="badge {{ stat.badge_class }}">{{ stat.variation }}</span>
-                                                <span class="ms-1 text-muted font-size-13">Depuis la semaine dernière</span>
-                                            </div>
-                                        </div>
-                                        <div id="{{ stat.chart_id }}" class="apex-charts"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
-{% block footer %}
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    © {{ "now"|date("Y") }} Clinicom
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Développé par <a href="#" class="text-decoration-underline">Votre équipe</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <!-- Libs JS -->
-    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-    
-    <!-- Apex Charts -->
-    <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-    
-    <!-- Dashboard init -->
-    <script src="{{ asset('assets/js/pages/dashboard.init.js') }}"></script>
-    
-    <!-- App js -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+{% block page_title %}
+    {% if app.request.attributes.get('_route') == 'admin_dashboard' %}
+        Tableau de bord
+    {% elseif app.request.attributes.get('_route') == 'admin_users' %}
+        Gestion des Utilisateurs
+    {% endif %}
 {% endblock %}

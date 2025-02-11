@@ -8,9 +8,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BackofficeController extends AbstractController
 {
-    #[Route('/backoffice', name: 'backoffice_index')]
-    public function index(): Response
+    #[Route('/backoffice', name: 'admin_dashboard')]
+    public function dashboard(): Response
     {
-        return $this->render('backoffice/index.html.twig');
+        return $this->render('backoffice/index.html.twig', [
+            'title' => 'Tableau de bord'
+        ]);
+    }
+
+    #[Route('/backofficeuser', name: 'admin_users')]
+    public function users(): Response
+    {
+        return $this->render('backoffice/index.html.twig', [
+            'title' => 'Gestion des utilisateurs'
+        ]);
     }
 }

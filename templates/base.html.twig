@@ -5,15 +5,18 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         
         {% block stylesheets %}
-            
+            <!-- Framework Font Awesome pour toutes les pages -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-            <!-- Charger le bon fichier CSS selon la page -->
+            <!-- Chargement conditionnel des CSS -->
             {% if app.request.attributes.get('_route') == 'signin' %}
-                <link rel="stylesheet" href="{{ asset('Login/css/signin.css') }}"> <!-- Fichier de style spécifique -->
+                <link rel="stylesheet" href="{{ asset('Login/css/signin.css') }}">
             {% elseif app.request.attributes.get('_route') == 'signup' %}
                 <link rel="stylesheet" href="{{ asset('Login/css/signup.css') }}">
-                {% elseif app.request.attributes.get('_route') == 'backoffice' %}
-            <link rel="stylesheet" href="{{ asset('Backoffice/backoffice.css') }}">
+            {% elseif app.request.attributes.get('_route') == 'front' %}
+                <link rel="stylesheet" href="{{ asset('Front/style.css') }}">
+            {% elseif app.request.attributes.get('_route') starts with 'admin_' %} {# Modification ici #}
+                <link rel="stylesheet" href="{{ asset('Backoffice/css/backoffice.css') }}">
             {% endif %}
         {% endblock %}
     </head>
@@ -22,9 +25,7 @@
         {% block body %}{% endblock %}
 
         {% block javascripts %}
-            
-
-            <script src="{{ asset('Login/js/plugins.js') }}"></script>
+             <script src="{{ asset('Login/js/signup.js') }}"></script>
         {% endblock %}
     </body>
 </html>

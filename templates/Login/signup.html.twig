@@ -2,44 +2,78 @@
 
 {% block title %}Register{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('Login/css/signup.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('Login/js/signup.js') }}"></script>
+{% endblock %}
+
 {% block body %}
 <div class="container">
-    <form class="form" method="POST">
-        <p class="title">Sign Up</p>
-        <p class="message">Signup now and get full access to our app.</p>
+    <form class="form" method="POST" name="user_form" id="signup-form" novalidate>
+        <p class="title">Inscription</p>
+        <p class="message">Créez votre compte pour accéder à la plateforme</p>
 
+        {% if errors is defined %}
+            <div class="global-error alert alert-danger">
+                {{ errors|join(', ') }}
+            </div>
+        {% endif %}
+
+        <!-- Nom -->
         <label>
-            <input required placeholder="" type="text" class="input" name="firstname">
-            <span>Firstname</span>
+            <input required placeholder="" type="text" class="input" name="nom" 
+                   pattern="^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ][a-zà-éèêëîïôùûüçœ\- ']*$"
+                   title="Doit commencer par une majuscule">
+            <span>Nom</span>
+            <div class="error-message"></div>
         </label>
 
+        <!-- Prénom -->
         <label>
-            <input required placeholder="" type="text" class="input" name="lastname">
-            <span>Lastname</span>
+            <input required placeholder="" type="text" class="input" name="prenom"
+                   pattern="^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ][a-zà-éèêëîïôùûüçœ\- ']*$"
+                   title="Doit commencer par une majuscule">
+            <span>Prénom</span>
+            <div class="error-message"></div>
         </label>
 
+        <!-- Date de naissance -->
         <label>
-            <input required placeholder="" type="date" class="input" name="date_naissance">
+            <input required placeholder="" type="date" class="input" name="date_naissance"
+                   max="{{ 'now'|date_modify('-18 years')|date('Y-m-d') }}">
             <span>Date de naissance</span>
+            <div class="error-message"></div>
         </label>
 
+        <!-- Rôle -->
         <label>
             <select required class="input" name="role" id="role-select">
-                <option value="">Select Role</option>
+                <option value="">Sélectionner un rôle</option>
                 <option value="Patient">Patient</option>
-                <option value="Medecin">Medecin</option>
+                <option value="Medecin">Médecin</option>
             </select>
-            <span>Role</span>
+            <span>Rôle</span>
+            <div class="error-message"></div>
         </label>
 
+        <!-- Spécialité (conditionnel) -->
         <label id="specialite-container" style="display: none;">
-            <input placeholder="" type="text" class="input" name="specialite">
-            <span>Specialité</span>
+            <input placeholder="" type="text" class="input" name="specialite"
+                   pattern="^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ][a-zà-éèêëîïôùûüçœ\- ']*$"
+                   title="Doit commencer par une majuscule">
+            <span>Spécialité</span>
+            <div class="error-message"></div>
         </label>
 
-        <label>
+        <!-- Ville -->
+<label>
             <select required class="input" name="ville">
-                <option value="">Select City</option>
+                <option value="">Selectionez votre ville </option>
                 <option value="Ariana">Ariana</option>
                 <option value="Béja">Béja</option>
                 <option value="Ben Arous">Ben Arous</option>
@@ -68,42 +102,74 @@
             <span>Ville</span>
         </label>
 
+        <!-- Adresse -->
         <label>
-            <input required placeholder="" type="text" class="input" name="adresse">
+            <input required placeholder="" type="text" class="input" name="adresse"
+                   pattern="^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ0-9][a-zà-éèêëîïôùûüçœ0-9\-, ']*$"
+                   title="Doit commencer par une majuscule ou un chiffre">
             <span>Adresse</span>
+            <div class="error-message"></div>
         </label>
 
+        <!-- Email -->
         <label>
-            <input required placeholder="" type="email" class="input" name="email">
+            <input required placeholder="" type="email" class="input" name="email"
+                   pattern="^[a-z0-9]+\.[a-z0-9]+@[a-z]+\.[a-z]{2,}$"
+                   title="Format: xx.xx@domaine.ext">
             <span>Email</span>
+            <div class="error-message"></div>
         </label>
         
+        <!-- Mot de passe -->
         <label>
-            <input required placeholder="" type="password" class="input" name="password">
-            <span>Password</span>
+            <input required placeholder="" type="password" class="input" name="password"
+                   minlength="8"
+                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                   title="8 caractères min, 1 majuscule, 1 chiffre, 1 caractère spécial">
+            <span>Mot de passe</span>
+            <div class="error-message"></div>
         </label>
         
+        <!-- Confirmation mot de passe -->
         <label>
             <input required placeholder="" type="password" class="input" name="confirm_password">
-            <span>Confirm Password</span>
+            <span>Confirmation mot de passe</span>
+            <div class="error-message"></div>
         </label>
 
-        <button type="submit" class="submit">Create Account</button>
+        <button type="submit" class="submit">Créer le compte</button>
         
         <p class="signin">
-            Already have an account? 
-            <a href="{{ path('signin') }}">Sign In</a>
+            Déjà inscrit ? 
+            <a href="{{ path('signin') }}">Connectez-vous</a>
         </p>
     </form>
 </div>
 
 <script>
+// Gestion de l'affichage conditionnel de la spécialité
 document.getElementById("role-select").addEventListener("change", function() {
-    var specialiteContainer = document.getElementById("specialite-container");
+    const specialiteContainer = document.getElementById("specialite-container");
+    const specialiteInput = specialiteContainer.querySelector('input');
+    
     if (this.value === "Medecin") {
         specialiteContainer.style.display = "block";
+        specialiteInput.setAttribute('required', 'required');
     } else {
         specialiteContainer.style.display = "none";
+        specialiteInput.removeAttribute('required');
+    }
+});
+
+// Validation de la confirmation de mot de passe
+document.querySelector('input[name="confirm_password"]').addEventListener('input', function() {
+    const password = document.querySelector('input[name="password"]').value;
+    const confirmPassword = this.value;
+    
+    if (password !== confirmPassword) {
+        this.setCustomValidity('Les mots de passe ne correspondent pas');
+    } else {
+        this.setCustomValidity('');
     }
 });
 </script>
