@@ -1,0 +1,116 @@
+{% extends 'baseLogin.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="container">
+    {{ form_start(form, {'attr': {'class': 'form'}}) }}
+        <div class="header">
+            <h1 class="title">Inscription</h1>
+            <p class="message">Créez votre compte pour accéder à la plateforme</p>
+        </div>
+
+        {# Affichage des messages flash #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        {# Section Nom/Prénom #}
+        <div class="row">
+            <div class="col-md-6 form-group">
+                {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6 form-group">
+                {{ form_row(form.prenom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        {# Section Date de naissance/Ville #}
+        <div class="row">
+            <div class="col-md-6 form-group">
+                {{ form_row(form.dateNaissance, {'attr': {'class': 'form-control datepicker'}}) }}
+            </div>
+            <div class="col-md-6 form-group">
+                {{ form_row(form.ville, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        {# Section Adresse/Email #}
+        <div class="row">
+            <div class="col-md-6 form-group">
+                {{ form_row(form.adresse, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6 form-group">
+                {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        {# Section Rôle/Spécialité #}
+        <div class="row">
+            <div class="col-md-6 form-group">
+                {{ form_row(form.role, {'attr': {
+                    'class': 'form-control role-selector',
+                    'id': 'role-select'
+                }}) }}
+            </div>
+            <div class="col-md-6 form-group" id="specialite-container" style="display: none;">
+                {{ form_row(form.specialite, {'attr': {
+                    'class': 'form-control',
+                    'id': 'specialite-input'
+                }}) }}
+            </div>
+        </div>
+
+        {# Section Mot de passe #}
+        <div class="row">
+            <div class="col-md-6 form-group">
+                {{ form_row(form.mdp.first, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6 form-group">
+                {{ form_row(form.mdp.second, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <button type="submit" class="btn btn-primary btn-lg w-100">Créer le compte</button>
+            <p class="text-center mt-3">
+                Déjà inscrit ? 
+                <a href="{{ path('app_sign_in') }}" class="text-primary">Connectez-vous</a>
+            </p>
+        </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const roleSelect = document.querySelector('#{{ form.role.vars.id }}'); // Sélection dynamique
+    const specialiteContainer = document.getElementById('specialite-container');
+
+    function toggleSpecialite() {
+        // Vérifie la valeur sélectionnée
+        const isMedecin = (roleSelect.value === "Medecin");
+        
+        // Affiche/masque le container
+        specialiteContainer.style.display = isMedecin ? 'block' : 'none';
+        
+        // Rend le champ obligatoire si nécessaire
+        const specialiteSelect = specialiteContainer.querySelector('select');
+        if (specialiteSelect) {
+            specialiteSelect.required = isMedecin;
+        }
+    }
+
+    // Écouteur d'événement
+    roleSelect.addEventListener('change', toggleSpecialite);
+    
+    // Initialisation au chargement
+    toggleSpecialite();
+});
+</script>
+{% endblock %}

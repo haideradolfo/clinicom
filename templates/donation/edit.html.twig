@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="donation-form-area default-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="site-heading text-center">
+                        <h4>Modifier un Don</h4>
+                        <h2>Mettre à jour votre Don</h2>
+                        <p>Modifiez les détails de votre don ci-dessous. Merci pour votre soutien continu.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    {{ form_start(form) }}
+                    <!-- Type de Don -->
+                    <div class="form-group">
+                        {{ form_label(form.TypeDonation, 'Type de Don') }}
+                        {{ form_widget(form.TypeDonation, {'attr': {'class': 'form-control', 'onchange': 'toggleFields()'}}) }}
+                    </div>
+
+                    <!-- Montant du Don (si applicable) -->
+                    <div class="form-group" id="amountGroup" style="display:none;">
+                        {{ form_label(form.montantDonation, 'Montant du Don (Dt)') }}
+                        {{ form_widget(form.montantDonation, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le montant', 'min': 1}}) }}
+                    </div>
+
+                    <!-- Type de Sang (visible uniquement pour le type de don 'sang') -->
+                    <div class="form-group" id="typeSongGroup" style="display:none;">
+                        {{ form_label(form.typeSang, 'Type de Sang') }}
+                        {{ form_widget(form.typeSang, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <!-- Description du Don -->
+                    <div class="form-group">
+                        {{ form_label(form.descriptionDonation, 'Description') }}
+                        {{ form_widget(form.descriptionDonation, {'attr': {'class': 'form-control', 'rows': 3, 'placeholder': 'Entrez une description'}}) }}
+                    </div>
+
+                    <!-- Champ photo (visible uniquement pour 'Matériel' et 'Autre') -->
+                    <div class="form-group" id="photoGroup" style="display:none;">
+                        {{ form_label(form.photoDonation, 'Télécharger une photo (facultatif)') }}
+                        {{ form_widget(form.photoDonation, {'attr': {'class': 'form-control', 'accept': 'image/*'}}) }}
+                    </div>
+
+                    <!-- Bouton de soumission -->
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-md btn-gradient">{{ button_label|default('Mettre à jour') }}</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script pour afficher les champs en fonction du type de don -->
+    <script>
+        function toggleFields() {
+            const typeD = document.getElementById('{{ form.TypeDonation.vars.id }}').value;
+            const amountGroup = document.getElementById('amountGroup');
+            const typeSongGroup = document.getElementById('typeSongGroup');
+            const photoGroup = document.getElementById('photoGroup');
+
+            // Masquer ou afficher des champs en fonction du type de don
+            if (typeD === 'argent') {
+                amountGroup.style.display = 'block';
+                typeSongGroup.style.display = 'none';
+                photoGroup.style.display = 'none';
+            } else if (typeD === 'sang') {
+                amountGroup.style.display = 'none';
+                typeSongGroup.style.display = 'block';
+                photoGroup.style.display = 'none';
+            } else if (typeD === 'materiel' || typeD === 'autre') {
+                amountGroup.style.display = 'none';
+                typeSongGroup.style.display = 'none';
+                photoGroup.style.display = 'block';
+            } else {
+                amountGroup.style.display = 'none';
+                typeSongGroup.style.display = 'none';
+                photoGroup.style.display = 'none';
+            }
+        }
+
+        // Initialiser l'état des champs au chargement de la page
+        window.onload = toggleFields;
+    </script>
+{% endblock %}

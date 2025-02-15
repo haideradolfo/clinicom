@@ -1,0 +1,19 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Acceuil Admin{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+
+
+    {# Ajout de l'image ici #}
+   <img src="{{ asset('Back/assets/images/home.png') }}" alt="Description de l'image" 
+     style="width: 1000px; height: 400px; margin-bottom: 20px; float: right;">
+    
+</div>
+{% endblock %}

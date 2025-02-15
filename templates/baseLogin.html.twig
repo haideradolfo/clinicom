@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        
+        {% block stylesheets %}
+            <!-- Framework Font Awesome pour toutes les pages -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+            
+            <!-- Chargement conditionnel des CSS -->
+            {% if app.request.attributes.get('_route') == 'app_login' %}
+                <link rel="stylesheet" href="{{ asset('Login/css/signin.css') }}">
+            {% elseif app.request.attributes.get('_route') == 'app_register' %}
+                <link rel="stylesheet" href="{{ asset('Login/css/signup.css') }}">
+            {% endif %}
+        {% endblock %}
+    </head>
+
+    <body>
+        <!-- Logo fixe en haut de la page -->
+        <div class="header">
+            <img src="{{ asset('Login/images/logo_clinicom.png') }}" alt="Logo" class="logo">
+        </div>
+
+        {% block body %}{% endblock %}
+        
+        {% block javascripts %}
+            <script>
+                // Initialisation du script pour tous les templates enfants
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Scripts globaux ici
+                });
+            </script>
+        {% endblock %}
+    </body>
+</html>

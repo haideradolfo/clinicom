@@ -1,0 +1,41 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue, Admin</h1>
+
+    <h2>Table des utilisateurs</h2>
+
+    <!-- Table des utilisateurs -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Rôle</th>
+                <th>Spécialité</th>
+                <th>Email</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Date de Naissance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.specialite }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.ville }}</td>
+                    <td>{{ user.adresse }}</td>
+                    <td>{{ user.dateNaissance ? user.dateNaissance|date('Y-m-d') : 'Non spécifié' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

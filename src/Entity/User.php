@@ -2,95 +2,69 @@
 
 namespace App\Entity;
 
-use App\Enum\Role;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: "Le nom est obligatoire")]
+    #[ORM\Column(length: 255)]
     #[Assert\Regex(
-        pattern: "/^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ][a-zà-éèêëîïôùûüçœ\- ']*$/",
-        message: "Le nom doit commencer par une majuscule et ne contenir que des lettres"
+        pattern: "/^[A-Z][a-zA-ZÀ-ÿ -]+$/",
+        message: "Le nom doit commencer par une lettre majuscule et ne contenir que des lettres et des espaces."
     )]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: "Le prénom est obligatoire")]
+    #[ORM\Column(length: 255)]
     #[Assert\Regex(
-        pattern: "/^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ][a-zà-éèêëîïôùûüçœ\- ']*$/",
-        message: "Le prénom doit commencer par une majuscule"
+        pattern: "/^[A-Z][a-zA-ZÀ-ÿ -]+$/",
+        message: "Le prénom doit commencer par une lettre majuscule et ne contenir que des lettres et des espaces."
     )]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: 'datetime')]
-    #[Assert\NotBlank(message: "La date de naissance est obligatoire")]
-    #[Assert\LessThanOrEqual(
-        "-18 years",
-        message: "Vous devez avoir au moins 18 ans"
-    )]
-    private ?\DateTimeInterface $date_naissance = null;
+    #[ORM\Column(length: 50)] 
+    private ?string $role = null;
 
-    #[ORM\Column(enumType: Role::class)]
-    #[Assert\NotNull(message: "Le rôle doit être spécifié")]
-    private ?Role $role = null;
-
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "La spécialité est obligatoire")]
-    #[Assert\Regex(
-        pattern: "/^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ][a-zà-éèêëîïôùûüçœ\- ']*$/",
-        message: "La spécialité doit commencer par une majuscule"
-    )]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $specialite = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "L'email est obligatoire")]
-    #[Assert\Email(mode: 'strict', message: "Email invalide")]
-    #[Assert\Regex(
-        pattern: "/^[a-z0-9]+\.[a-z0-9]+@[a-z]+\.[a-z]{2,}$/i",
-        message: "Format email invalide (ex: jean.dupont@domaine.com)"
+    #[Assert\Email(
+        message: "L'adresse email n'est pas valide."
     )]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
-    #[Assert\Length(
-        min: 8,
-        max: 64,
-        minMessage: "Minimum {{ limit }} caractères",
-        maxMessage: "Maximum {{ limit }} caractères"
-    )]
+    #[Assert\Length(min: 8, minMessage: "Le mot de passe doit contenir au moins 8 caractères.")]
     #[Assert\Regex(
-        pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",
-        message: "Le mot de passe doit contenir au moins 1 majuscule, 1 chiffre et 1 caractère spécial"
+    pattern: "/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/",
+    message: "Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial."
     )]
     private ?string $mdp = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "La ville est obligatoire")]
-    #[Assert\Regex(
-        pattern: "/^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ][a-zà-éèêëîïôùûüçœ\- ']*$/",
-        message: "La ville doit commencer par une majuscule"
-    )]
     private ?string $ville = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "L'adresse est obligatoire")]
-    #[Assert\Regex(
-        pattern: "/^[A-ZÀ-ÉÈÊËÎÏÔÙÛÜÇŒœ0-9][a-zà-éèêëîïôùûüçœ0-9\-, ']*$/",
-        message: "L'adresse doit commencer par une majuscule ou un chiffre"
-    )]
     private ?string $adresse = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateNaissance = null;
+
+    // Getters/Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -104,7 +78,6 @@ class User
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -116,31 +89,17 @@ class User
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
-    public function getDateNaissance(): ?\DateTimeInterface
-    {
-        return $this->date_naissance;
-    }
-
-    public function setDateNaissance(\DateTimeInterface $date_naissance): static
-    {
-        $this->date_naissance = $date_naissance;
-
-        return $this;
-    }
-
-    public function getRole(): ?Role
+    public function getRole(): ?string
     {
         return $this->role;
     }
 
-    public function setRole(Role $role): static
+    public function setRole(string $role): static
     {
         $this->role = $role;
-
         return $this;
     }
 
@@ -149,10 +108,9 @@ class User
         return $this->specialite;
     }
 
-    public function setSpecialite(string $specialite): static
+    public function setSpecialite(?string $specialite): static
     {
         $this->specialite = $specialite;
-
         return $this;
     }
 
@@ -164,7 +122,6 @@ class User
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -176,8 +133,12 @@ class User
     public function setMdp(string $mdp): static
     {
         $this->mdp = $mdp;
-
         return $this;
+    }
+    
+    public function getPassword(): ?string
+    {
+        return $this->mdp; // Symfony attend cette méthode pour l'authentification
     }
 
     public function getVille(): ?string
@@ -188,7 +149,6 @@ class User
     public function setVille(string $ville): static
     {
         $this->ville = $ville;
-
         return $this;
     }
 
@@ -200,7 +160,60 @@ class User
     public function setAdresse(string $adresse): static
     {
         $this->adresse = $adresse;
-
         return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(\DateTimeInterface $dateNaissance): static
+    {
+        $this->dateNaissance = $dateNaissance;
+        return $this;
+    }
+
+    #[Assert\Callback]
+    public function validateAge(ExecutionContextInterface $context): void
+    {
+        $today = new \DateTime();
+        $age = $today->diff($this->dateNaissance)->y;
+
+        if ($age < 18) {
+            $context->buildViolation('Vous devez avoir 18 ans ou plus.')
+                ->atPath('dateNaissance')
+                ->addViolation();
+        }
+    }
+
+    // Méthodes UserInterface
+    public function getRoles(): array
+    {
+        // Si le rôle est null ou vide, le définir comme ROLE_PATIENT
+        if (!$this->role) {
+            return ['ROLE_PATIENT'];  // Le rôle par défaut
+        }
+    
+        // Ajouter "ROLE_" si nécessaire
+        $roles = [$this->role];
+    
+        foreach ($roles as &$role) {
+            if (!str_starts_with($role, 'ROLE_')) {
+                $role = 'ROLE_' . strtoupper($role);
+            }
+        }
+    
+        return array_unique($roles);
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Effacer les données sensibles temporaires
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 }

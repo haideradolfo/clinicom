@@ -1,0 +1,174 @@
+{% extends 'baseLogin.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="container">
+    {{ form_start(registrationForm, {'attr': {'class': 'form'}}) }}
+    
+    <div class="header">
+        <h1 class="title text-center">Register</h1>
+        <p class="message">Créez votre compte pour accéder à la plateforme</p>
+    </div>
+
+    {# Affichage des messages flash #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {# Section Nom/Prénom #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.nom, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.nom, {
+                    'attr': {'class': 'form-control' ~ (registrationForm.nom.vars.errors|length > 0 ? ' is-invalid' : '')}
+                }) }}
+                {% for error in registrationForm.nom.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.prenom, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.prenom, {
+                    'attr': {'class': 'form-control' ~ (registrationForm.prenom.vars.errors|length > 0 ? ' is-invalid' : '')}
+                }) }}
+                {% for error in registrationForm.prenom.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Section Email/Mot de passe #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.email, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.email, {
+                    'attr': {'class': 'form-control' ~ (registrationForm.email.vars.errors|length > 0 ? ' is-invalid' : '')}
+                }) }}
+                {% for error in registrationForm.email.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.plainPassword, 'Mot de passe', {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.plainPassword, {
+                    'attr': {'class': 'form-control' ~ (registrationForm.plainPassword.vars.errors|length > 0 ? ' is-invalid' : '')}
+                }) }}
+                {% for error in registrationForm.plainPassword.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Section Rôle/Spécialité #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.role, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.role, {
+                    'attr': {'class': 'form-control role-selector', 'id': 'role-select'}
+                }) }}
+                {% for error in registrationForm.role.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6" id="specialite-container" style="display: none;">
+            <div class="form-group">
+                {{ form_label(registrationForm.specialite, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.specialite, {
+                    'attr': {'class': 'form-control', 'id': 'specialite-input'}
+                }) }}
+                {% for error in registrationForm.specialite.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Section Date de naissance #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.dateNaissance, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.dateNaissance, {
+                    'attr': {'class': 'form-control' ~ (registrationForm.dateNaissance.vars.errors|length > 0 ? ' is-invalid' : '')}
+                }) }}
+                {% for error in registrationForm.dateNaissance.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Section Adresse/Ville #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.ville, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.ville, {
+                    'attr': {'class': 'form-control' ~ (registrationForm.ville.vars.errors|length > 0 ? ' is-invalid' : '')}
+                }) }}
+                {% for error in registrationForm.ville.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(registrationForm.adresse, null, {'class': 'form-label'}) }}
+                {{ form_widget(registrationForm.adresse, {
+                    'attr': {'class': 'form-control' ~ (registrationForm.adresse.vars.errors|length > 0 ? ' is-invalid' : '')}
+                }) }}
+                {% for error in registrationForm.adresse.vars.errors %}
+                    <div class="invalid-feedback">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-footer">
+        <button type="submit" class="btn btn-primary btn-lg w-100">Créer le compte</button>
+        <p class="text-center mt-3">
+            Déjà inscrit ? 
+            <a href="{{ path('app_login') }}" class="text-primary">Connectez-vous</a>
+        </p>
+    </div>
+
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const roleSelect = document.querySelector('#{{ registrationForm.role.vars.id }}');
+    const specialiteContainer = document.getElementById('specialite-container');
+
+    function toggleSpecialite() {
+        const isMedecin = (roleSelect.value === "Medecin");
+        specialiteContainer.style.display = isMedecin ? 'block' : 'none';
+
+        const specialiteSelect = specialiteContainer.querySelector('select');
+        if (specialiteSelect) {
+            specialiteSelect.required = isMedecin;
+        }
+    }
+
+    roleSelect.addEventListener('change', toggleSpecialite);
+    toggleSpecialite();
+});
+</script>
+{% endblock %}

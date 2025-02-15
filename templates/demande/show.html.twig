@@ -1,0 +1,62 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Détail de la Demande{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><i class="fas fa-info-circle"></i> Détails de la Demande</h3>
+            <a href="{{ path('app_demande_index') }}" class="btn btn-light"><i class="fas fa-arrow-left"></i> Retour à la liste</a>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="bg-light">ID</th>
+                        <td>{{ demande.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Description</th>
+                        <td>{{ demande.descriptionDemande }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Montant</th>
+                        <td>{{ demande.montantDemande }} €</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Type</th>
+                        <td>{{ demande.typeSongDemader }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Photo</th>
+                        <td>
+                            {% if demande.photoDemande %}
+                                <img src="{{ asset('uploads/' ~ demande.photoDemande) }}" alt="Photo" width="100" class="img-thumbnail">
+                            {% else %}
+                                <span class="badge bg-secondary">Pas d'image</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Créé le</th>
+                        <td>{{ demande.CreatedAt ? demande.CreatedAt|date('d/m/Y H:i') : 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Modifié le</th>
+                        <td>{{ demande.UpdatedAt ? demande.UpdatedAt|date('d/m/Y H:i') : 'N/A' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-footer d-flex justify-content-between">
+            <a href="{{ path('app_demande_edit', {'id': demande.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Modifier</a>
+
+            <form method="post" action="{{ path('app_demande_delete', {'id': demande.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ demande.id) }}">
+                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

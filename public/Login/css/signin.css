@@ -37,13 +37,16 @@ body {
 .form {
   width: 100%;
   max-width: 450px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   padding: 2.5rem;
   border-radius: 1.25rem;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* TITRE PERSONNALISÉ (PULSANT) */
 .title {
   font-size: 2rem;
   color: royalblue;
@@ -77,12 +80,7 @@ body {
   background-color: rgba(65, 105, 225, 0.3);
 }
 
-.message {
-  text-align: center;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
+/* FORMULAIRE - LABEL ET INPUT */
 .form label {
   display: block;
   margin-bottom: 1.5rem;
@@ -122,6 +120,7 @@ body {
   color: royalblue;
 }
 
+/* BOUTON ENVOI */
 .submit {
   width: 100%;
   padding: 1rem;
@@ -138,6 +137,7 @@ body {
   background: #2c4ec7;
 }
 
+/* LIEN SE CONNECTER */
 .signin {
   text-align: center;
   margin-top: 1.5rem;
@@ -154,6 +154,7 @@ body {
   text-decoration: underline;
 }
 
+/* ANIMATION DE PULSATION */
 @keyframes pulse {
   from {
       transform: translateY(-50%) scale(0.9);
@@ -165,14 +166,50 @@ body {
   }
 }
 
+/* LOGO */
 .logo {
   display: block !important;
-  width: 200px !important;  /* Taille réduite */
+  width: 200px !important;
   height: auto !important;
-  max-width: 900px !important; /* Assure que l'image ne dépasse pas cette taille */
   position: absolute !important;
-  top: 15px !important; /* Ajuste la position verticale */
+  top: 20px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  z-index: 1000 !important; /* Assure que l'image est visible */
+  z-index: 1000 !important;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* MARGES ET ERREURS */
+.form-group .form-error {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+}
+
+.global-error {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+/* Adaptation mobile */
+@media (max-width: 768px) {
+  .row {
+      flex-direction: column;
+  }
+  
+  .col-md-6 {
+      width: 100%;
+      max-width: 100%;
+  }
+}
+
+.form-group {
+  margin-bottom: 2rem; /* Espacement plus important entre les groupes de champs */
+}
+
+.form-group.nom,
+.form-group.date-naissance {
+  margin-bottom: 2rem; /* Par exemple, entre le nom et la date de naissance */
 }
