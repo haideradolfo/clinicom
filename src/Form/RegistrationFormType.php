@@ -68,20 +68,14 @@ class RegistrationFormType extends AbstractType
         new Email(['message' => 'Veuillez entrer une adresse email valide.'])
     ],
 ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer un mot de passe']),
-         new Length(['min' => 8, 'minMessage' => 'Le mot de passe doit contenir au moins 8 caractères.']),
-        new Regex([
-            'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
-            'message' => 'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.'
-        ])
-                ],
-            ])
+->add('plainPassword', PasswordType::class, [
+    'mapped' => false,
+    'attr' => ['autocomplete' => 'new-password'],
+    'constraints' => [
+        new NotBlank(['message' => 'Veuillez entrer un mot de passe']),
+        
+    ],
+])
 
             ->add('ville', ChoiceType::class, [
                 'choices' => [
@@ -129,9 +123,10 @@ class RegistrationFormType extends AbstractType
     }
 
     public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
-    }
+{
+    $resolver->setDefaults([
+        'data_class' => User::class,
+        'validation_groups' => ['registration'], // <-- Activation du groupe
+    ]);
+}
 }

@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route; // Modification ici pour les annotations
-use Doctrine\ORM\EntityManagerInterface; // Ajout de l'import pour EntityManagerInterface
-use App\Entity\User; // Ajout de l'import pour l'entité User
+use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Entity\User;
+use App\Form\ProfileType;
 
 final class AdminHomeController extends AbstractController
 {
@@ -29,10 +32,8 @@ final class AdminHomeController extends AbstractController
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
     public function dashboard(EntityManagerInterface $entityManager): Response
     {
-        // Récupérer les utilisateurs depuis la base de données
         $users = $entityManager->getRepository(User::class)->findAll();
     
-        // Passer les utilisateurs à la vue Twig
         return $this->render('admin_home/admin/dashboard.html.twig', [
             'users' => $users,
         ]);

@@ -1,0 +1,59 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Mon Profil</h2>
+    
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.nom) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.prenom) }}
+            {{ form_widget(form.prenom, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.prenom) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.mdp) }}
+            {{ form_widget(form.mdp, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.mdp) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.ville) }}
+            {{ form_widget(form.ville, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.ville) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.adresse) }}
+            {{ form_widget(form.adresse, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.adresse) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.dateNaissance) }}
+            {{ form_widget(form.dateNaissance, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.dateNaissance) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
