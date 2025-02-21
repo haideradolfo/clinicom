@@ -52,7 +52,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         // Vérifier son rôle et rediriger
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
-            return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+            return new RedirectResponse($this->urlGenerator->generate('app_admin_home'));
         } elseif (in_array('ROLE_MEDECIN', $user->getRoles())) {
             return new RedirectResponse($this->urlGenerator->generate('medecin_dashboard'));
         }

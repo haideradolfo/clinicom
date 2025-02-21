@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
         }
 
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
-            return $this->redirectToRoute('admin_dashboard'); // ✅ Page pour l'admin
+            return $this->redirectToRoute('app_admin_home'); // ✅ Page pour l'admin
         } elseif (in_array('ROLE_MEDECIN', $user->getRoles())) {
             return $this->redirectToRoute('medecin_dashboard'); // ✅ Page pour le médecin
         } else {

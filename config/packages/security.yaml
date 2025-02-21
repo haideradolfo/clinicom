@@ -38,7 +38,7 @@ security:
         ROLE_MEDECIN: ROLE_PATIENT
     
     access_control:
-        - { path: ^/admin/dashboard, roles: ROLE_ADMIN }
+        - { path: ^/admin/home, roles: ROLE_ADMIN }
         - { path: ^/medecin/dashboard, roles: ROLE_MEDECIN }
         - { path: ^/home, roles: ROLE_PATIENT }
         - { path: ^/register, roles: PUBLIC_ACCESS }

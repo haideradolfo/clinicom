@@ -309,23 +309,28 @@
                             <li class="menu-title" data-key="t-menu">Menu</li>
 
                             <li>
-    <a href="{{ path('admin_dashboard') }}">
+    <a href="{{ path('app_admin_home') }}">
         <i data-feather="home"></i>
         <span class="badge rounded-pill bg-soft-success text-success float-end">9+</span>
-        <span data-key="t-dashboard">Dashboard</span>
+        <span data-key="t-dashboard">Home</span>
     </a>
 </li>
 
                             <li class="menu-title" data-key="t-apps">Apps</li>
 
+
                             
 
-                            <li>
-                                <a href="apps-users.html">
-                                    <i data-feather="users"></i>
-                                    <span data-key="t-users">Gérer les utilisateurs</span>
+                             <li>
+                                <a href="javascript: void(0);" class="has-arrow">
+                                    <i data-feather="mail"></i>
+                                    <span data-key="t-email">Gérer les utilisateurs</span>
                                 </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="{{ path('admin_dashboard') }}" data-key="t-inbox">Liste des utilisateurs</a></li>
+                                </ul>
                             </li>
+
                             <li>
                                 <a href="apps-specialties.html">
                                     <i data-feather="briefcase"></i>
