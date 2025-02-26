@@ -1,0 +1,88 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'id', 
+                    'direction': app.request.get('sort') == 'id' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">ID</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'nom', 
+                    'direction': app.request.get('sort') == 'nom' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Nom</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'prenom', 
+                    'direction': app.request.get('sort') == 'prenom' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Prénom</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'role', 
+                    'direction': app.request.get('sort') == 'role' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Rôle</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'specialite', 
+                    'direction': app.request.get('sort') == 'specialite' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Spécialité</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'email', 
+                    'direction': app.request.get('sort') == 'email' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Email</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'ville', 
+                    'direction': app.request.get('sort') == 'ville' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Ville</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'adresse', 
+                    'direction': app.request.get('sort') == 'adresse' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Adresse</a>
+            </th>
+            <th>
+                <a href="{{ path('admin_dashboard', {
+                    'sort': 'dateNaissance', 
+                    'direction': app.request.get('sort') == 'dateNaissance' and app.request.get('direction') == 'asc' ? 'desc' : 'asc',
+                    'q': app.request.get('q') 
+                }) }}">Date de Naissance</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.specialite }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.ville }}</td>
+                <td>{{ user.adresse }}</td>
+                <td>{{ user.dateNaissance ? user.dateNaissance|date('Y-m-d') : 'Non spécifié' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9" class="text-center">Aucun utilisateur trouvé.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

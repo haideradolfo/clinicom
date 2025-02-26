@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,12 +31,25 @@ final class AdminHomeController extends AbstractController
     }
 
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
-    public function dashboard(EntityManagerInterface $entityManager): Response
+public function dashboard(Request $request, UserRepository $userRepository): Response
     {
-        $users = $entityManager->getRepository(User::class)->findAll();
+        $search = $request->query->get('q');
+        $sort = $request->query->get('sort', 'id'); // Valeur par défaut 'id'
+        $direction = $request->query->get('direction', 'asc'); // Valeur par défaut 'asc'
+    
+        $users = $userRepository->findBySearchAndSort($search, $sort, $direction);
+    
+        // Vérification si la requête est AJAX
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('admin_home/admin/_user_table.html.twig', [
+                'users' => $users
+            ]);
+        }
     
         return $this->render('admin_home/admin/dashboard.html.twig', [
             'users' => $users,
+            'search' => $search
         ]);
     }
+    
 }

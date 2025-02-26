@@ -7,35 +7,26 @@
 
     <h2>Table des utilisateurs</h2>
 
-    <!-- Table des utilisateurs -->
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Rôle</th>
-                <th>Spécialité</th>
-                <th>Email</th>
-                <th>Ville</th>
-                <th>Adresse</th>
-                <th>Date de Naissance</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.nom }}</td>
-                    <td>{{ user.prenom }}</td>
-                    <td>{{ user.role }}</td>
-                    <td>{{ user.specialite }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.ville }}</td>
-                    <td>{{ user.adresse }}</td>
-                    <td>{{ user.dateNaissance ? user.dateNaissance|date('Y-m-d') : 'Non spécifié' }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Formulaire de recherche -->
+    <form method="get" action="{{ path('admin_dashboard') }}" id="search-form">
+        <input type="text" name="q" id="search-input" placeholder="Rechercher un utilisateur..." value="{{ app.request.get('q') }}">
+    </form>
+
+    <!-- Table dynamique -->
+    <div id="users-table">
+        {% include 'admin_home/admin/_user_table.html.twig' %}
+    </div>
+
+    <script>
+        document.getElementById('search-input').addEventListener('keyup', function() {
+            let query = this.value;
+            fetch("{{ path('admin_dashboard') }}?q=" + encodeURIComponent(query), { 
+                headers: { 'X-Requested-With': 'XMLHttpRequest' } 
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('users-table').innerHTML = html;
+            });
+        });
+    </script>
 {% endblock %}

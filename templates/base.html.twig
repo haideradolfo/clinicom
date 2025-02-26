@@ -32,13 +32,12 @@
 </head>
 
 <body>
-<!-- Preloader Start -->
-    <div class="se-pre-con"></div>
-    <!-- Preloader Ends -->
+
+
 
     <!-- Start Header Top 
     ============================================= -->
-    <div class="top-bar-area">
+    <div class="top-bar-area" >
         <div class="container">
             <div class="row align-center">
                 <div class="col-lg-3 logo">
@@ -46,25 +45,114 @@
                         <img src="{{ asset('Front/assets/img/logo-light.png') }}" class="logo" alt="Logo">
                     </a>
                 </div>
-                <div class="col-lg-9 address-info text-right">
-                    <div class="info box">
-                        <ul>
-                            <li>
-                                <div class="icon">
-                                    <i class="flaticon-email"></i>
-                                </div>
-                                <div class="info">
-                                    <span>Email</span> Clinicom@gmail.com
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <i class="flaticon-call"></i>
-                                </div>
-                                <div class="info">
-                                    <span>Phone</span> +123 456 7890
-                                </div>
+                <div class="col-lg-9 address-info text-right" style="position: relative; z-index: 9999;">
+    <style>
+        /* Reset du contexte d'empilement */
+        .slider-section {
+            position: relative;
+            z-index: 100 !important;
+        }
 
+        .user-profile-container {
+            position: static !important;
+        }
+
+        .dropdown-menu-custom {
+            z-index: 10001 !important;
+            position: absolute !important;
+            top: calc(100% + 5px) !important;
+            right: 15px !important;
+            transform: none !important;
+            margin: 0 !important;
+            border: 1px solid rgba(0,0,0,0.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Contournement des contextes d'empilement */
+        .dropdown-parent {
+            position: relative !important;
+            z-index: 9999 !important;
+            isolation: isolate;
+        }
+    </style>
+
+    <div class="info box user-profile-container">
+        <ul class="d-flex align-items-center list-unstyled mb-0" style="gap: 20px;">
+            <!-- Email -->
+            <li>
+                <div class="icon">
+                    <i class="flaticon-email"></i>
+                </div>
+                <div class="info">
+                    <span>Email</span> Clinicom@gmail.com
+                </div>
+            </li>
+            
+            <!-- Téléphone -->
+            <li>
+                <div class="icon">
+                    <i class="flaticon-call"></i>
+                </div>
+                <div class="info">
+                    <span>Phone</span> +123 456 7890
+                </div>
+            </li>
+            
+            <!-- Profil Utilisateur -->
+            {% if app.user %}
+            <li class="dropdown-parent">
+                <div class="dropdown">
+                    <button type="button" 
+                            class="btn header-item bg-light border rounded-pill p-2 d-flex align-items-center" 
+                            id="front-user-dropdown"
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false">
+                        <img src="{{ asset('Back/assets/images/utilisateur.jpg') }}" 
+                             class="rounded-circle" 
+                             alt="Avatar"
+                             style="width: 32px; height: 32px; object-fit: cover;">
+                        <span class="ms-2 d-none d-md-inline-block text-dark fw-medium">
+                            {{ app.user.prenom }} {{ app.user.nom }}
+                        </span>
+                        <i class="mdi mdi-chevron-down ms-1 align-middle"></i>
+                    </button>
+                    
+                    <div class="dropdown-menu dropdown-menu-custom shadow" 
+                         aria-labelledby="front-user-dropdown"
+                         style="min-width: 200px;">
+                        <div class="px-3 py-2">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ asset('Back/assets/images/utilisateur.jpg') }}" 
+                                         class="rounded-circle"
+                                         width="40"
+                                         alt="Avatar">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-0">{{ app.user.prenom }} {{ app.user.nom }}</h6>
+                                    <small class="text-muted">{{ app.user.email }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider my-2"></div>
+                        <a href="{{ path('front_profile_index') }}" class="dropdown-item">
+                            <i class="mdi mdi-account-edit-outline me-2"></i> Modifier le profil
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="mdi mdi-cog-outline me-2"></i> Paramètres
+                        </a>
+                        <div class="dropdown-divider my-2"></div>
+                        <a href="{{ path('app_logout') }}" class="dropdown-item text-danger">
+                            <i class="mdi mdi-logout-variant me-2"></i> Déconnexion
+                        </a>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+                            
 <div class="contact-section d-flex align-items-center">
     <!-- Si l'utilisateur est connecté, afficher le bouton de déconnexion -->
     {% if app.user %}
@@ -72,7 +160,11 @@
         <button type="submit" class="btn btn-sm btn-danger">Se déconnecter</button>
     </form>
     {% endif %}
-</div>
+                            </li>
+                        </ul>
+
+                                
+
 
 
                             </li>
@@ -136,6 +228,10 @@
                                 <li>
                                     <a href="contact.html">contact</a>
                                 </li>
+                                
+</div>
+
+
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div>   
@@ -301,6 +397,9 @@
     <script src="{{ asset('Front/assets/js/bootsnav.js') }}"></script>
     <script src="{{ asset('Front/assets/js/main.js') }}"></script>
 {% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

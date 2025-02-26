@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %} 
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Mon Profil</h2>
+    
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+        {# Affichez les champs du formulaire comme dans le template admin #}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.prenom) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.mdp) }}
+        {{ form_row(form.ville) }}
+        {{ form_row(form.adresse) }}
+        {{ form_row(form.dateNaissance) }}
+
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
