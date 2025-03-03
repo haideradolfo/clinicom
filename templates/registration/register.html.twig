@@ -71,6 +71,24 @@
         </div>
     </div>
 
+    <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            {{ form_label(registrationForm.phone, null, {'class': 'form-label'}) }}
+            {{ form_widget(registrationForm.phone, {
+                'attr': {
+                    'class': 'form-control' ~ (registrationForm.phone.vars.errors|length > 0 ? ' is-invalid' : ''),
+                    'placeholder': '+21612345678'
+                }
+            }) }}
+            <small class="form-text text-muted">Format requis : +216 suivis de 8 chiffres</small>
+            {% for error in registrationForm.phone.vars.errors %}
+                <div class="invalid-feedback">{{ error.message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
     {# Section Rôle/Spécialité #}
     <div class="row">
         <div class="col-md-6">

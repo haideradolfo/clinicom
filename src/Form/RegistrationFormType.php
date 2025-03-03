@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 
 class RegistrationFormType extends AbstractType
@@ -75,6 +76,25 @@ class RegistrationFormType extends AbstractType
         new NotBlank(['message' => 'Veuillez entrer un mot de passe']),
         
     ],
+])
+
+->add('phone', TelType::class, [
+    'label' => 'Numéro de téléphone',
+    'attr' => [
+        'placeholder' => '+21612345678',
+        'pattern' => "^\+[0-9]{9,15}$"
+    ],
+    'constraints' => [
+        new NotBlank([
+            'message' => 'Le numéro de téléphone est obligatoire',
+            'groups' => ['registration']
+        ]),
+        new Regex([
+            'pattern' => "/^\+[0-9]{9,15}$/",
+            'message' => 'Format international requis (ex: +21612345678)',
+            'groups' => ['registration']
+        ])
+    ]
 ])
 
             ->add('ville', ChoiceType::class, [

@@ -35,8 +35,11 @@
             </button>
 
             <div class="form-footer text-center mt-3">
-                <p>Déjà enregistré sur notre site ? 
-                    <a href="{{ path('app_register') }}" class="text-primary">Connectez-vous</a>
+                <p>Vous n'avez pas encore un compte ? 
+                    <a href="{{ path('app_register') }}" class="text-primary">Inscrivez-vous</a>
+                    <p>Mot de passe oublié ?
+                    <a href="{{ path('app_forgot_password_request') }}" class="text-primary"> Cliquez ici</a>
+                    </p>
                 </p>
             </div>
 

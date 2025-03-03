@@ -8,7 +8,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use App\Repository\UserRepository; 
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Doctrine\ORM\EntityManagerInterface;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
@@ -62,4 +67,6 @@ class SecurityController extends AbstractController
 
         return new Response('Rôles de l\'utilisateur : ' . implode(', ', $user->getRoles()));
     }
+
+   
 }

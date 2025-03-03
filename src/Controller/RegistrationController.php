@@ -31,7 +31,7 @@ class RegistrationController extends AbstractController
             // Hashing and setting the password
             $plainPassword = $form->get('plainPassword')->getData();
             $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
-            $user->setMdp($hashedPassword);
+            $user->setPassword($hashedPassword);
         
             // Setting the role dynamically (optional)
             $user->setRole($form->get('role')->getData() ?? 'Medecin');
