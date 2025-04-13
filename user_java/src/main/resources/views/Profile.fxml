@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #E3EDF9;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicom.user.controllers.ProfileController">
+
+   <children>
+      <!-- En-tête -->
+      <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="71.0" prefWidth="910.0" style="-fx-background-color: #20c997;">
+         <Label layoutX="20.0" layoutY="20.0" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="Modifier le Profil" />
+      </AnchorPane>
+
+      <!-- Formulaire principal -->
+      <VBox alignment="TOP_LEFT" layoutX="50.0" layoutY="100.0" spacing="15">
+         <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+         </padding>
+
+         <!-- Ligne 1 -->
+         <HBox spacing="20">
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Nom :" />
+               <TextField fx:id="nom" prefWidth="300" />
+            </VBox>
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Prénom :" />
+               <TextField fx:id="prenom" prefWidth="300" />
+            </VBox>
+         </HBox>
+
+         <!-- Ligne 2 -->
+         <HBox spacing="20">
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Date de naissance :" />
+               <DatePicker fx:id="dateNaissance" prefWidth="300" />
+            </VBox>
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Téléphone :" />
+               <TextField fx:id="telephone" prefWidth="300" />
+            </VBox>
+         </HBox>
+
+         <!-- Ligne 3 -->
+         <HBox spacing="20">
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Email :" />
+               <TextField fx:id="email" prefWidth="300" />
+            </VBox>
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Ville :" />
+               <TextField fx:id="ville" prefWidth="300" />
+            </VBox>
+         </HBox>
+
+         <!-- Ligne 4 -->
+         <HBox spacing="20">
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Adresse :" />
+               <TextField fx:id="adresse" prefWidth="300" />
+            </VBox>
+         </HBox>
+
+         <!-- Ligne 5 -->
+         <HBox spacing="20">
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Mot de passe :" />
+               <PasswordField fx:id="password" prefWidth="300" />
+            </VBox>
+            <VBox prefWidth="400" spacing="5">
+               <Label style="-fx-font-weight: bold;" text="Statut :" />
+               <ComboBox fx:id="statusCombo" prefWidth="300" />
+            </VBox>
+         </HBox>
+
+         <!-- Boutons -->
+         <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20 0 0 0;">
+            <Button fx:id="btnMettreAJour" onAction="#onUpdateClicked" style="-fx-background-color: #3F861E; -fx-text-fill: white; -fx-font-weight: bold;" text="Mettre à Jour" />
+            <Button fx:id="btnAnnuler" onAction="#onCancelClicked" style="-fx-background-color: #FF3B30; -fx-text-fill: white; -fx-font-weight: bold;" text="Annuler" />
+         </HBox>
+      </VBox>
+   </children>
+</AnchorPane>

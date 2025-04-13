@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: linear-gradient(to bottom, #E3EDF9, #AABEDC);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicom.user.controllers.DashboardController">
+
+    <VBox spacing="20" style="-fx-padding: 20px;">
+
+        <!-- Header -->
+        <AnchorPane prefHeight="80.0" style="-fx-background-color: #121C3E; -fx-padding: 10px;">
+            <children>
+                <Label fx:id="adminWelcomeLabel" layoutX="850" layoutY="25" style="-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;" />
+                <Label layoutX="96.0" layoutY="30.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="🔍 Rechercher :" textFill="WHITE" />
+                <HBox alignment="CENTER" layoutX="160.0" layoutY="20.0" spacing="10" />
+                <Button fx:id="btnLogout" layoutX="1300.0" layoutY="25.0" onAction="#handleLogout" style="-fx-background-color: #FF3B30; -fx-text-fill: white;" text="Déconnexion" />
+                 <Button fx:id="btnSortByRole" layoutX="661.0" layoutY="31.0" onAction="#trierUtilisateursParRole" style="-fx-background-color: #FFC20E;" text="Trier par rôle" />
+                 <Button fx:id="btnRefresh" layoutX="616.0" layoutY="29.0" onAction="#handleRefresh" style="-fx-background-color: #3F861E; -fx-text-fill: white;" text="🔄" />
+                 <TextField fx:id="txtRecherche" layoutX="250.0" layoutY="23.0" promptText="Nom, Prénom ou Email" style="-fx-background-radius: 20px; -fx-padding: 10px; -fx-pref-width: 350px;" />
+
+                <Button fx:id="btnHome" layoutX="14.0" layoutY="18.0" onAction="#handleHomeNavigation" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitHeight="49.0" fitWidth="58.0">
+                            <image>
+                                <Image url="@../img/logo_secblanc.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </AnchorPane>
+
+        <!-- Statistiques -->
+        <HBox alignment="CENTER" spacing="30">
+            <VBox style="-fx-background-color: #FFC20E; -fx-padding: 20px; -fx-background-radius: 15px;">
+                <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="👥 Admins" />
+                <Label fx:id="lblAdmins" style="-fx-font-size: 28px; -fx-text-fill: white;" text="0" />
+            </VBox>
+            <VBox style="-fx-background-color: #3F861E; -fx-padding: 20px; -fx-background-radius: 15px;">
+                <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="👔 Medecins" />
+                <Label fx:id="lblMedecins" style="-fx-font-size: 28px; -fx-text-fill: white;" text="0" />
+            </VBox>
+            <VBox style="-fx-background-color: #253D90; -fx-padding: 20px; -fx-background-radius: 15px;">
+                <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="🧑‍ Patients" />
+                <Label fx:id="lblPatients" style="-fx-font-size: 28px; -fx-text-fill: white;" text="0" />
+            </VBox>
+        </HBox>
+
+        <!-- Évolution des utilisateurs -->
+        <VBox spacing="20">
+            <Label style="-fx-font-size: 20px; -fx-text-fill: #253D90;" text="Évolution des utilisateurs" />
+            <LineChart fx:id="userEvolutionChart" prefHeight="300.0" prefWidth="1100.0" title="Statistiques par mois">
+                <xAxis>
+                    <CategoryAxis label="Mois" fx:id="xAxis" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis" label="Nombre d'utilisateurs" />
+                </yAxis>
+            </LineChart>
+        </VBox>
+
+        <!-- Liste des utilisateurs -->
+        <VBox spacing="20" style="-fx-padding: 20px;">
+            <Label style="-fx-font-size: 22px; -fx-text-fill: #253D90;" text="Liste des utilisateurs" />
+            <Rectangle height="2" style="-fx-fill: #3F861E;" width="1100" />
+
+            <TableView fx:id="userTable" prefHeight="400" style="-fx-background-color: white; -fx-border-color: #3F861E; -fx-border-radius: 10px; -fx-padding: 10px;">
+                <columns>
+                    <!-- Ajoutez toutes les colonnes nécessaires -->
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="nomColumn" text="Nom" prefWidth="100"/>
+                    <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="100"/>
+                    <TableColumn fx:id="roleColumn" text="Rôle" prefWidth="100"/>
+                    <TableColumn fx:id="specialiteColumn" text="Spécialité" prefWidth="120"/>
+                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="200"/>
+                    <TableColumn fx:id="villeColumn" text="Ville" prefWidth="100"/>
+                    <TableColumn fx:id="adresseColumn" text="Adresse" prefWidth="150"/>
+                    <TableColumn fx:id="naissanceColumn" text="Naissance" prefWidth="100"/>
+                    <TableColumn fx:id="phoneColumn" text="Téléphone" prefWidth="100"/>
+                    <TableColumn fx:id="statusColumn" text="Statut" prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+    </VBox>
+</ScrollPane>
